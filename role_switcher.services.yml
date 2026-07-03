@@ -1,0 +1,25 @@
+# Service definitions for the Role Switcher module.
+#
+# Author: Vaibhav Bargal
+# Date: 2026-06-30
+services:
+
+  # Core business logic: which roles a user may switch into, and
+  # persisting/clearing/reading the active session-level override.
+  # See src/Service/RoleSwitcherManager.php for full documentation.
+  role_switcher.manager:
+    class: Drupal\role_switcher\Service\RoleSwitcherManager
+    arguments:
+      - '@entity_type.manager'
+
+  # Decorates the core current_user service so every permission/access
+  # check (routing, Views, menus, blocks, Twig) reflects only the active
+  # switched role instead of all database-assigned roles.
+  # See src/Service/RoleSwitcherAccountProxy.php for full documentation.
+  role_switcher.current_user:
+    class: Drupal\role_switcher\Service\RoleSwitcherAccountProxy
+    decorates: current_user
+    decoration_priority: -10
+    arguments:
+      - '@role_switcher.current_user.inner'
+      - '@role_switcher.manager'

@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Hooks for the Role Switcher module.
+ *
+ * @author Vaibhav Bargal
+ * @date 2026-06-30
+ */
+
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_user_login().
+ *
+ * Clears any role-switch override that may still be present in the
+ * session at the moment a user logs in. This guarantees that every fresh
+ * login always starts from the user's full, database-assigned role set —
+ * a switch made in a previous session (or by a different user who shared
+ * the same browser/session) can never carry forward into a new login.
+ *
+ * @param \Drupal\user\UserInterface $account
+ *   The user account that has just logged in.
+ *
+ * @author Vaibhav Bargal
+ * @date 2026-06-30
+ */
+function role_switcher_user_login(UserInterface $account) {
+  \Drupal::service('role_switcher.manager')->clearActiveRole();
+}

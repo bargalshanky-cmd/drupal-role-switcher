@@ -1,0 +1,8 @@
+# Asset library definitions for the Role Switcher module.
+#
+# Author: Vaibhav Bargal
+# Date: 2026-06-30
+role_switcher:
+  css:
+    component:
+      css/role-switcher.css: {}

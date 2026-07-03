@@ -1,0 +1,64 @@
+/**
+ * Styling for the Role Switcher "Acting as" dropdown.
+ *
+ * Author: Vaibhav Bargal
+ * Date: 2026-06-30
+ *
+ * Keeps the block compact and inline instead of stretching full-width
+ * and stacking the select/button vertically.
+ */
+.role-switcher-form {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 360px;
+  padding: 10px 16px;
+  margin: 0;
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.role-switcher-form .form-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.role-switcher-form label {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  margin: 0;
+}
+
+.role-switcher-form select {
+  width: auto;
+  min-width: 160px;
+  padding: 4px 8px;
+  font-size: 13px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.role-switcher-form input[type="submit"] {
+  width: auto;
+  padding: 5px 14px;
+  font-size: 13px;
+  border-radius: 4px;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.role-switcher-form input[type="submit"]:hover {
+  background: #0b5ed7;
+}
+
+.role-switcher-form .messages,
+.role-switcher-form .status-messages {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+}

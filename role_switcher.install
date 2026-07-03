@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for the Role Switcher module.
+ *
+ * @author Vaibhav Bargal
+ * @date 2026-06-30
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Automatically places the Role Switcher block in the active theme so the
+ * "Acting as" dropdown appears immediately after enabling the module,
+ * with no manual Block Layout configuration required by the site
+ * administrator.
+ *
+ * Region selection prefers a header-style region ('header',
+ * 'secondary_menu', 'navigation', 'page_top', checked in that order) so
+ * the dropdown appears near the top of the page; if the active theme
+ * defines none of those, it falls back to the first region the theme
+ * declares. If the theme has no regions at all, the block is silently
+ * skipped (the module remains otherwise fully functional via the
+ * `/user/role-switch` route).
+ *
+ * Idempotent: if a block with the computed id already exists (e.g. the
+ * module is being re-installed), this function does nothing.
+ *
+ * @author Vaibhav Bargal
+ * @date 2026-06-30
+ */
+function role_switcher_install() {
+  $theme = \Drupal::config('system.theme')->get('default');
+  $theme_info = \Drupal::service('theme_handler')->getTheme($theme);
+  $regions = $theme_info->info['regions'] ?? [];
+
+  $region = NULL;
+  foreach (['header', 'secondary_menu', 'navigation', 'page_top'] as $candidate) {
+    if (isset($regions[$candidate])) {
+      $region = $candidate;
+      break;
+    }
+  }
+  if ($region === NULL && !empty($regions)) {
+    $region = array_key_first($regions);
+  }
+  if ($region === NULL) {
+    return;
+  }
+
+  $block_id = $theme . '_role_switcher_block';
+  if (\Drupal::entityTypeManager()->getStorage('block')->load($block_id)) {
+    return;
+  }
+
+  \Drupal::entityTypeManager()->getStorage('block')->create([
+    'id' => $block_id,
+    'theme' => $theme,
+    'region' => $region,
+    'plugin' => 'role_switcher_block',
+    'weight' => -100,
+    'visibility' => [],
+    'settings' => [
+      'id' => 'role_switcher_block',
+      'label' => 'Role Switcher',
+      'label_display' => '0',
+      'provider' => 'role_switcher',
+    ],
+  ])->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Removes the block instance that was auto-placed by
+ * role_switcher_install(), so disabling and uninstalling the module
+ * leaves no orphaned block configuration behind. Any session-level role
+ * overrides simply stop having any effect once the module's
+ * `current_user` service decorator is removed from the container — no
+ * further cleanup is required for those.
+ *
+ * @author Vaibhav Bargal
+ * @date 2026-06-30
+ */
+function role_switcher_uninstall() {
+  $theme = \Drupal::config('system.theme')->get('default');
+  $block_id = $theme . '_role_switcher_block';
+  $block = \Drupal::entityTypeManager()->getStorage('block')->load($block_id);
+  if ($block) {
+    $block->delete();
+  }
+}

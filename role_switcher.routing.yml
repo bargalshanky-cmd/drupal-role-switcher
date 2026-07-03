@@ -1,0 +1,18 @@
+# Routing definitions for the Role Switcher module.
+#
+# Author: Vaibhav Bargal
+# Date: 2026-06-30
+
+# The "Acting as" role-switch form. Reachable directly as a standalone
+# page (useful for non-JS / accessibility fallback), and also rendered
+# inline by RoleSwitcherBlock. Open to any logged-in user — no dedicated
+# permission is required, since access to the form itself is harmless;
+# the actual role-switch action is still server-side validated against
+# the user's own roles in RoleSwitcherManager::setActiveRole().
+role_switcher.switch_form:
+  path: '/user/role-switch'
+  defaults:
+    _form: '\Drupal\role_switcher\Form\RoleSwitchForm'
+    _title: 'Switch role'
+  requirements:
+    _user_is_logged_in: 'TRUE'
