@@ -59,7 +59,7 @@ class RoleSwitchForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     $instance = new static();
-    $instance->manager = $container->get('role_switcher.manager');
+    $instance->manager = $container->get('role_switcher_session.manager');
     $instance->currentUser = $container->get('current_user');
     return $instance;
   }

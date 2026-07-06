@@ -60,7 +60,7 @@ class RoleSwitcherBlock extends BlockBase implements ContainerFactoryPluginInter
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->formBuilder = $container->get('form_builder');
-    $instance->roleSwitcherManager = $container->get('role_switcher.manager');
+    $instance->roleSwitcherManager = $container->get('role_switcher_session.manager');
     return $instance;
   }
 
