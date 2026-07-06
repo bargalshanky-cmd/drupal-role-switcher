@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 namespace Drupal\role_switcher_session\Service;
 
