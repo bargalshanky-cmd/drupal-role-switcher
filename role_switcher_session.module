@@ -25,6 +25,6 @@ use Drupal\user\UserInterface;
  * @author Vaibhav Bargal
  * @date 2026-06-30
  */
-function role_switcher_user_login(UserInterface $account) {
-  \Drupal::service('role_switcher.manager')->clearActiveRole();
+function role_switcher_session_user_login(UserInterface $account) {
+  \Drupal::service('role_switcher_session.manager')->clearActiveRole();
 }

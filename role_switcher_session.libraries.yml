@@ -2,7 +2,7 @@
 #
 # Author: Vaibhav Bargal
 # Date: 2026-06-30
-role_switcher:
+role_switcher_session:
   css:
     component:
       css/role-switcher.css: {}

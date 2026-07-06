@@ -1,17 +1,17 @@
-<?php
+﻿<?php
 
-namespace Drupal\role_switcher\Form;
+namespace Drupal\role_switcher_session\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountProxyInterface;
-use Drupal\role_switcher\Service\RoleSwitcherManager;
+use Drupal\role_switcher_session\Service\RoleSwitcherManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @file
- * Contains \Drupal\role_switcher\Form\RoleSwitchForm.
+ * Contains \Drupal\role_switcher_session\Form\RoleSwitchForm.
  *
  * @author Vaibhav Bargal
  * @date 2026-06-30
@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * Provides the single-select "Acting as" role-switcher dropdown.
  *
  * Rendered inside the Role Switcher block (see
- * \Drupal\role_switcher\Plugin\Block\RoleSwitcherBlock) and also reachable
+ * \Drupal\role_switcher_session\Plugin\Block\RoleSwitcherBlock) and also reachable
  * directly at the `/user/role-switch` route. Selecting a role from the
  * dropdown submits the form via AJAX (no full page reload) and activates
  * that role for the remainder of the current session. Selecting the
@@ -36,7 +36,7 @@ class RoleSwitchForm extends FormBase {
   /**
    * The Role Switcher manager service.
    *
-   * @var \Drupal\role_switcher\Service\RoleSwitcherManager
+   * @var \Drupal\role_switcher_session\Service\RoleSwitcherManager
    */
   protected RoleSwitcherManager $manager;
 
@@ -90,7 +90,7 @@ class RoleSwitchForm extends FormBase {
     $account = $this->currentUser->getAccount();
     $options = $this->manager->getSwitchableRoles($account);
 
-    // Zero switchable roles — nothing to switch (e.g. user holds only
+    // Zero switchable roles â€” nothing to switch (e.g. user holds only
     // 'administrator', which never appears as a switchable option).
     if (count($options) < 1) {
       return $form;
@@ -101,7 +101,7 @@ class RoleSwitchForm extends FormBase {
     $form['#attributes']['class'][] = 'role-switcher-form';
     $form['#prefix'] = '<div id="role-switcher-form-wrapper">';
     $form['#suffix'] = '</div>';
-    $form['#attached']['library'][] = 'role_switcher/role_switcher';
+    $form['#attached']['library'][] = 'role_switcher_session/role_switcher_session';
 
     $form['active_role'] = [
       '#type' => 'select',
@@ -131,7 +131,7 @@ class RoleSwitchForm extends FormBase {
    *
    * Performs the actual role switch (or clears it) immediately on
    * selection change, without requiring the user to click the "Switch"
-   * button — the button remains as a progressive-enhancement fallback for
+   * button â€” the button remains as a progressive-enhancement fallback for
    * environments where JavaScript/AJAX is unavailable.
    *
    * @param array $form
@@ -163,7 +163,7 @@ class RoleSwitchForm extends FormBase {
    * checks (e.g. a project's own AccessCheck service) restrict to a
    * specific role. If the user switches away from the role that was
    * granting them access to that page, redirecting back to it would
-   * immediately hit a 403 (access denied) — which is technically correct
+   * immediately hit a 403 (access denied) â€” which is technically correct
    * post-switch, but a confusing place to land right after a successful
    * switch. The front page is always safe to land on regardless of which
    * role is currently active.

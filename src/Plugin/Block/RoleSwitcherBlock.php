@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Drupal\role_switcher\Plugin\Block;
+namespace Drupal\role_switcher_session\Plugin\Block;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Block\BlockBase;
@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @file
- * Contains \Drupal\role_switcher\Plugin\Block\RoleSwitcherBlock.
+ * Contains \Drupal\role_switcher_session\Plugin\Block\RoleSwitcherBlock.
  *
  * @author Vaibhav Bargal
  * @date 2026-06-30
@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * Renders the role-switching dropdown (RoleSwitchForm) and is
  * automatically placed in the active theme's header/navigation region by
- * role_switcher_install() when the module is first enabled — no manual
+ * role_switcher_install() when the module is first enabled â€” no manual
  * Block Layout configuration is required. The block is automatically
  * hidden for any user who has fewer than two switchable roles, since
  * there would be nothing meaningful to switch between.
@@ -47,7 +47,7 @@ class RoleSwitcherBlock extends BlockBase implements ContainerFactoryPluginInter
   /**
    * The Role Switcher manager service.
    *
-   * @var \Drupal\role_switcher\Service\RoleSwitcherManager
+   * @var \Drupal\role_switcher_session\Service\RoleSwitcherManager
    */
   protected $roleSwitcherManager;
 
@@ -73,14 +73,14 @@ class RoleSwitcherBlock extends BlockBase implements ContainerFactoryPluginInter
    * @date 2026-06-30
    */
   public function build() {
-    return $this->formBuilder->getForm('Drupal\role_switcher\Form\RoleSwitchForm');
+    return $this->formBuilder->getForm('Drupal\role_switcher_session\Form\RoleSwitchForm');
   }
 
   /**
    * {@inheritdoc}
    *
    * Visible to any authenticated user who has more than one switchable
-   * role. No dedicated permission is required — access is determined
+   * role. No dedicated permission is required â€” access is determined
    * entirely by whether switching would be meaningful for that user. The
    * 'user.roles' and 'session' cache contexts ensure the block is
    * re-evaluated (not served from a stale cache) whenever the user's
@@ -95,7 +95,7 @@ class RoleSwitcherBlock extends BlockBase implements ContainerFactoryPluginInter
     }
     $options = $this->roleSwitcherManager->getSwitchableRoles($account);
     // At least one switchable role is enough for the dropdown to be
-    // useful — e.g. an administrator who also holds 'csr_admin' can still
+    // useful â€” e.g. an administrator who also holds 'csr_admin' can still
     // meaningfully switch into that single role (with 'administrator'
     // safety-netted back in by getEffectiveRoles()), even though
     // 'administrator' itself never appears as a switchable option.

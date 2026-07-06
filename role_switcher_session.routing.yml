@@ -9,10 +9,10 @@
 # permission is required, since access to the form itself is harmless;
 # the actual role-switch action is still server-side validated against
 # the user's own roles in RoleSwitcherManager::setActiveRole().
-role_switcher.switch_form:
+role_switcher_session.switch_form:
   path: '/user/role-switch'
   defaults:
-    _form: '\Drupal\role_switcher\Form\RoleSwitchForm'
+    _form: '\Drupal\role_switcher_session\Form\RoleSwitchForm'
     _title: 'Switch role'
   requirements:
     _user_is_logged_in: 'TRUE'

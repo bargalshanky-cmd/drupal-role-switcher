@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 
-namespace Drupal\role_switcher\Service;
+namespace Drupal\role_switcher_session\Service;
 
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * @file
- * Contains \Drupal\role_switcher\Service\RoleSwitcherManager.
+ * Contains \Drupal\role_switcher_session\Service\RoleSwitcherManager.
  *
  * @author Vaibhav Bargal
  * @date 2026-06-30
@@ -88,7 +88,7 @@ class RoleSwitcherManager {
    * The built-in 'authenticated' role is always excluded (every logged-in
    * user has it implicitly, so offering it as a choice is meaningless).
    * The 'administrator' role is always excluded from the selectable list
-   * as a safety measure — administrators can still switch between their
+   * as a safety measure â€” administrators can still switch between their
    * other roles, but 'administrator' itself is never relinquished via this
    * UI, preventing an admin from accidentally locking themselves out.
    *
@@ -121,7 +121,7 @@ class RoleSwitcherManager {
    * Validates and activates a single role override for the current session.
    *
    * Server-side ownership validation is always performed here, regardless
-   * of what the calling code (e.g. a submitted form value) claims — this
+   * of what the calling code (e.g. a submitted form value) claims â€” this
    * is the security boundary that prevents a user from switching into a
    * role they do not actually hold, even if the request were tampered
    * with client-side.
@@ -142,7 +142,7 @@ class RoleSwitcherManager {
   public function setActiveRole(AccountInterface $account, string $rid): void {
     $allowed = $this->getSwitchableRoles($account);
     if (!isset($allowed[$rid])) {
-      \Drupal::logger('role_switcher')->warning('User @uid attempted to switch to non-permitted role @rid.', [
+      \Drupal::logger('role_switcher_session')->warning('User @uid attempted to switch to non-permitted role @rid.', [
         '@uid' => $account->id(),
         '@rid' => $rid,
       ]);
@@ -175,7 +175,7 @@ class RoleSwitcherManager {
    * was first set). If an administrator revokes the role from the user
    * while the override is still active in their session, this method
    * detects the mismatch, clears the now-invalid override automatically,
-   * and returns NULL — preventing a stale, no-longer-held role from
+   * and returns NULL â€” preventing a stale, no-longer-held role from
    * continuing to grant access.
    *
    * @param \Drupal\Core\Session\AccountInterface $account
@@ -209,7 +209,7 @@ class RoleSwitcherManager {
    * override is active. Behavior:
    *  - No override active: returns the account's full database role set,
    *    completely unmodified.
-   *  - Override active: returns only ['authenticated', $active_role] —
+   *  - Override active: returns only ['authenticated', $active_role] â€”
    *    i.e. the selected role fully replaces all other roles for the
    *    duration of the override.
    *  - Safety exception: if the account genuinely holds 'administrator'

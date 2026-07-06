@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\role_switcher\Service;
+namespace Drupal\role_switcher_session\Service;
 
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 
 /**
  * @file
- * Contains \Drupal\role_switcher\Service\RoleSwitcherAccountProxy.
+ * Contains \Drupal\role_switcher_session\Service\RoleSwitcherAccountProxy.
  *
  * @author Vaibhav Bargal
  * @date 2026-06-30
@@ -47,7 +47,7 @@ class RoleSwitcherAccountProxy implements AccountProxyInterface {
   /**
    * The Role Switcher manager service.
    *
-   * @var \Drupal\role_switcher\Service\RoleSwitcherManager
+   * @var \Drupal\role_switcher_session\Service\RoleSwitcherManager
    */
   protected RoleSwitcherManager $manager;
 
@@ -58,7 +58,7 @@ class RoleSwitcherAccountProxy implements AccountProxyInterface {
    *   The decorated (original) current_user service, injected
    *   automatically by Drupal's service container via the `decorates` /
    *   `.inner` convention defined in role_switcher.services.yml.
-   * @param \Drupal\role_switcher\Service\RoleSwitcherManager $manager
+   * @param \Drupal\role_switcher_session\Service\RoleSwitcherManager $manager
    *   The Role Switcher manager, used to resolve the effective role list.
    *
    * @author Vaibhav Bargal

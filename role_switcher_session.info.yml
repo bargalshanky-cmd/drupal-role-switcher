@@ -2,7 +2,7 @@
 #
 # Author: Vaibhav Bargal
 # Date: 2026-06-30
-name: Role Switcher
+name: Role Switcher Session
 type: module
 description: 'Lets a logged-in user with multiple custom roles pick which one is active for their session.'
 package: Custom
