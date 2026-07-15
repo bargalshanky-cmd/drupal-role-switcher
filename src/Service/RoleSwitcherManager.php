@@ -26,9 +26,17 @@ class RoleSwitcherManager {
       return [];
     }
     $role_storage = $this->entityTypeManager->getStorage('user_role');
-    $options = [];
+    $roles_data = [];
     foreach ($role_storage->loadMultiple($rids) as $rid => $role) {
-      $options[$rid] = $role->label();
+      $roles_data[$rid] = [
+        'label' => $role->label(),
+        'weight' => $role->getWeight(),
+      ];
+    }
+    uasort($roles_data, fn($a, $b) => $a['weight'] <=> $b['weight']);
+    $options = [];
+    foreach ($roles_data as $rid => $data) {
+      $options[$rid] = $data['label'];
     }
     return $options;
   }

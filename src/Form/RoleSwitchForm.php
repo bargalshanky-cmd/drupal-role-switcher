@@ -173,7 +173,7 @@ class RoleSwitchForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->doSwitch($form_state);
-    $form_state->setRedirect('<front>');
+    $form_state->setRedirect('<current>');
   }
 
   /**
