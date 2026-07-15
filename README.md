@@ -82,8 +82,8 @@ removed from the container; no further cleanup is necessary.
 2. An "Acting as" dropdown appears automatically near the top of every
    page. (If you only hold one role, or zero switchable roles, the
    dropdown does not appear — there is nothing to switch between.)
-3. Select a role from the dropdown. The change is applied immediately
-   via AJAX (no page reload) and a confirmation message appears.
+3. Select a role from the dropdown and click **Switch**. The page reloads
+   and a confirmation message appears.
 4. From that point on, only the selected role's permissions are active —
    your other roles are completely overridden, not merged.
 5. To go back to normal, select **"- All my original roles -"** from the
@@ -164,7 +164,7 @@ The single source of truth for all role-switching business logic.
 | Method | Responsibility |
 |---|---|
 | `getSession()` | Always fetches the session fresh from the current request, avoiding stale-reference bugs. |
-| `getSwitchableRoles($account)` | Returns the account's roles minus `authenticated` and `administrator`, as `role_id => label`, suitable for a Form API `#options` array. |
+| `getSwitchableRoles($account)` | Returns the account's roles minus `authenticated` and `administrator`, sorted by role weight (configurable via Admin → People → Roles), as `role_id => label` suitable for a Form API `#options` array. |
 | `setActiveRole($account, $rid)` | Re-validates server-side that `$rid` is actually one of the account's own roles (never trusts client input blindly), then writes it to the session. Throws `AccessDeniedHttpException` and logs a warning on any mismatch. |
 | `clearActiveRole()` | Removes the override from the session and forces an immediate save, so the change is visible right away rather than only after the response finishes. |
 | `getActiveRole($account)` | Reads the override from the session, but re-validates on every single call that the account still actually holds that role — self-healing if an admin revokes it mid-session. |
@@ -197,10 +197,7 @@ dropdown.
   `getSwitchableRoles()`; returns an empty form if the user has fewer
   than two switchable roles. Includes a "- All my original roles -"
   empty option for reverting.
-- `ajaxSwitch()` — fires on the select's `change` event; applies the
-  switch immediately via AJAX, no page reload, no need to click the
-  "Switch" button.
-- `submitForm()` — the non-AJAX fallback path (e.g. JS disabled).
+- `submitForm()` — applies the role switch and reloads the current page.
 - `doSwitch()` — shared logic for both paths: empty selection clears the
   override; a real role id is passed to `setActiveRole()`, with a
   try/catch to surface a friendly error if validation fails.
