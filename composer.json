@@ -1,0 +1,15 @@
+{
+  "name": "drupal/role_switcher_session",
+  "description": "Lets a logged-in user with multiple custom roles pick which one is active for their session.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "authors": [
+    {
+      "name": "Vaibhav Bargal",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "drupal/core": "^10 || ^11"
+  }
+}
