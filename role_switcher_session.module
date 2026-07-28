@@ -26,5 +26,17 @@ use Drupal\user\UserInterface;
  * @date 2026-06-30
  */
 function role_switcher_session_user_login(UserInterface $account) {
-  \Drupal::service('role_switcher_session.manager')->clearActiveRole();
+  $manager = \Drupal::service('role_switcher_session.manager');
+  $manager->clearActiveRole();
+
+  $roles = $manager->getSwitchableRoles($account);
+  if (!empty($roles)) {
+    $first_role = array_key_first($roles);
+    try {
+      $manager->setActiveRole($account, $first_role);
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('role_switcher_session')->error($e->getMessage());
+    }
+  }
 }
